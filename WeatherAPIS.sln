@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.Admin.APIS", "WeatherAPIS\Weather.Admin.APIS.csproj", "{8BB75C2A-88DE-4F1F-B1BA-04262ACA4542}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Admin.APIS", "WeatherAPIS\Weather.Admin.APIS.csproj", "{8BB75C2A-88DE-4F1F-B1BA-04262ACA4542}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.Commons", "Commons\Weather.Commons.csproj", "{E2CA4D8D-EA59-4B5D-AE16-3D3A29273B88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Commons", "Commons\Weather.Commons.csproj", "{E2CA4D8D-EA59-4B5D-AE16-3D3A29273B88}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 Business Layer", "03 Business Layer", "{9C0305EA-BA31-4F9C-BFDC-32E7547B46C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 APIS", "04 APIS", "{8808FDA8-4229-4A11-BBF7-70D0CE98F12B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.Operations", "Operations\Weather.Operations.csproj", "{EA2634C4-AF46-443D-A76A-97BBEDCD84DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Operations", "Operations\Weather.Operations.csproj", "{EA2634C4-AF46-443D-A76A-97BBEDCD84DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Entities", "02 Entities", "{1AC38893-9F2D-4ED1-9D9E-393E0D9994D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.Operations.Entities", "Operations.Entities\Weather.Operations.Entities.csproj", "{E8CEBDCA-0BE7-442A-977C-11A99B0B18C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Operations.Entities", "Operations.Entities\Weather.Operations.Entities.csproj", "{E8CEBDCA-0BE7-442A-977C-11A99B0B18C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07 Test", "07 Test", "{689F79D5-BC34-49AE-A4C6-F4444E790C75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.Business.Tests", "..\Business.Tests\Business.Tests\Weather.Business.Tests.csproj", "{642E81C8-195B-4156-95AB-2B3641A1F08E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Business.Tests", "Business.Tests\Business.Tests\Weather.Business.Tests.csproj", "{4B31ED9B-262D-48D1-864B-405D6C064576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,10 @@ Global
 		{E8CEBDCA-0BE7-442A-977C-11A99B0B18C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8CEBDCA-0BE7-442A-977C-11A99B0B18C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8CEBDCA-0BE7-442A-977C-11A99B0B18C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{642E81C8-195B-4156-95AB-2B3641A1F08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{642E81C8-195B-4156-95AB-2B3641A1F08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{642E81C8-195B-4156-95AB-2B3641A1F08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{642E81C8-195B-4156-95AB-2B3641A1F08E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B31ED9B-262D-48D1-864B-405D6C064576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B31ED9B-262D-48D1-864B-405D6C064576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B31ED9B-262D-48D1-864B-405D6C064576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B31ED9B-262D-48D1-864B-405D6C064576}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,7 +56,7 @@ Global
 		{E2CA4D8D-EA59-4B5D-AE16-3D3A29273B88} = {9C0305EA-BA31-4F9C-BFDC-32E7547B46C4}
 		{EA2634C4-AF46-443D-A76A-97BBEDCD84DC} = {9C0305EA-BA31-4F9C-BFDC-32E7547B46C4}
 		{E8CEBDCA-0BE7-442A-977C-11A99B0B18C4} = {1AC38893-9F2D-4ED1-9D9E-393E0D9994D2}
-		{642E81C8-195B-4156-95AB-2B3641A1F08E} = {689F79D5-BC34-49AE-A4C6-F4444E790C75}
+		{4B31ED9B-262D-48D1-864B-405D6C064576} = {689F79D5-BC34-49AE-A4C6-F4444E790C75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA301226-A13B-4451-96F9-2EC2E839D380}
