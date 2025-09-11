@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Operations.Entities\Weather.Operations.Entities.csproj" />
-    <ProjectReference Include="..\..\Operations\Weather.Operations.csproj" />
+    <ProjectReference Include="..\Operations.Entities\Weather.Operations.Entities.csproj" />
+    <ProjectReference Include="..\Operations\Weather.Operations.csproj" />
   </ItemGroup>
 
 </Project>
