@@ -31,7 +31,7 @@ jobs:
 
     - name: Publish test results
       uses: dorny/test-reporter@v1
-      if: always()
+      if: success() || failure()
       with:
         name: 'xUnit Test Results'
         path: 'TestResults/*.trx'
