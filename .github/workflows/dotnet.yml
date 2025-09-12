@@ -36,3 +36,5 @@ jobs:
         name: 'xUnit Test Results'
         path: 'TestResults/*.trx'
         reporter: dotnet-trx
+        threshold-warning: 10% # Warning if more than 10% of tests fail
+        threshold-error: 25% # Error if more than 25% of tests fail
