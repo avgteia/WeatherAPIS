@@ -39,3 +39,6 @@ jobs:
         threshold-warning: 10% # Warning if more than 10% of tests fail
         threshold-error: 25% # Error if more than 25% of tests fail
         token: ${{ secrets.GITHUB_TOKEN }}
+        fail-on-empty: 'true'
+        fail-on-error: 'true'
+        list-tests: 'all'
