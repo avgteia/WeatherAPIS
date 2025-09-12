@@ -25,7 +25,9 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-            
+
+    - name: Fail if below threshold
+      run: coverage report --fail-under=90
     #- name: Run tests and collect coverage
     #  run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
