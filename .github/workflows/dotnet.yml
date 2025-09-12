@@ -42,11 +42,15 @@ jobs:
         fail-on-empty: 'true'
         fail-on-error: 'true'
         list-tests: 'all'
+        
+    - name: 🧹 Verificar formato de código
+      run: dotnet format --verify-no-changes
 
-    - name: Upload dotnet test results
-      uses: actions/upload-artifact@v4
-      with:
-          name: dotnet-results
-          path: TestResults
-          # Use always() to always run this step to publish test results when there are test failures
-          if: always()
+
+    #- name: Upload dotnet test results
+    #  uses: actions/upload-artifact@v4
+    #  with:
+    #      name: dotnet-results
+    #      path: TestResults
+    #      # Use always() to always run this step to publish test results when there are test failures
+    #      if: always()
