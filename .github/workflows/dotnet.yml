@@ -25,18 +25,34 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test Business.Tests/Weather.Business.Tests.csproj --no-build --verbosity normal
-            
+
     - name: Run tests and collect coverage
       run: |
-        dotnet test --no-build --configuration Debug \
-        --logger "trx;LogFileName=test-results.trx" \
-        --results-directory TestResults 
+        dotnet test --no-restore \
+        /p:CollectCoverage=true \
+        /p:CoverletOutputFormat=cobertura \
+        /p:CoverletOutput=./coverage.xml \
+        /p:Threshold=90 \
+        /p:ThresholdType=line \
+        /p:ThresholdStat=average
 
-    - name: Publish test results
-      uses: dorny/test-reporter@v1
-      if: always()
+    - name: Publish code coverage report
+      uses: irongut/CodeCoverageAction@v1.9.0 # Or another suitable action
       with:
-        name: 'xUnit Test Results'
-        path: 'TestResults/*.trx'
-        reporter: dotnet-trx
-        threshold: 90
+        token: ${{ secrets.GITHUB_TOKEN }}
+        filepath: ./coverage.xml
+        threshold: 90 # Optional, can be used for reporting in PR comments
+    #- name: Run tests and collect coverage
+    #  run: |
+    #    dotnet test --no-build --configuration Debug \
+    #    --logger "trx;LogFileName=test-results.trx" \
+    #    --results-directory TestResults 
+
+    #- name: Publish test results
+    #  uses: dorny/test-reporter@v1
+    #  if: always()
+    #  with:
+    #    name: 'xUnit Test Results'
+    #    path: 'TestResults/*.trx'
+    #    reporter: dotnet-trx
+    #    threshold: 90
