@@ -26,8 +26,8 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
             
-    - name: Run tests and collect coverage
-      run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+    #- name: Run tests and collect coverage
+    #  run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
     #- name: Publish test results
     #  uses: dorny/test-reporter@v1
