@@ -34,10 +34,40 @@ namespace Weather.Operations
 
         #region ------------------------------------------------- Public Methods ------------------------------------------------------
         
-        public static List<SourcesEntity> Get()
+
+        public static SourcesEntity GetByIdService(SourceRequestEntity filters)
+        {
+
+            var result = Get(filters).FirstOrDefault();
+
+            return result;
+        }
+
+
+        public static List<SourcesEntity> GetService()
+        {
+
+            var request = new SourceRequestEntity();
+
+            var result = Get(request);
+
+            return result;
+        }
+
+        
+        #endregion
+
+        #region ------------------------------------------------- Private Methods ------------------------------------------------------
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private static List<SourcesEntity> Get(SourceRequestEntity filters)
         {
             // Get the source list 
-            var sourceList = usp_Sources_Sel_01_Accessor.Value.Execute().ToList();
+            var sourceList = usp_Sources_Sel_01_Accessor.Value.Execute(
+                    filters.idSource
+                ).ToList();
 
             return sourceList;
         }
