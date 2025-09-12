@@ -24,7 +24,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test Business.Tests/Weather.Business.Tests.csproj --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
             
     - name: Run tests and collect coverage
       run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
