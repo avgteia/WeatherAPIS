@@ -23,24 +23,22 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    #- name: Test
+    #  run: dotnet test --no-build --verbosity normal
 
-    - name: Fail if below threshold
-      run: coverage report --fail-under=90
-    #- name: Run tests and collect coverage
-    #  run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+    - name: Run tests and collect coverage
+      run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
-    #- name: Publish test results
-    #  uses: dorny/test-reporter@v1
-    #  if: always()
-    #  with:
-    #    name: 'xUnit Test Results'
-    #    path: 'TestResults/*.trx'
-    #    reporter: dotnet-trx
-    #    threshold-warning: 10% # Warning if more than 10% of tests fail
-    #    threshold-error: 25% # Error if more than 25% of tests fail
-    #    token: ${{ secrets.GITHUB_TOKEN }}
-    #    fail-on-empty: 'true'
-    #    fail-on-error: 'true'
-    #    list-tests: 'all'
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: 'xUnit Test Results'
+        path: 'TestResults/*.trx'
+        reporter: dotnet-trx
+        threshold-warning: 10% # Warning if more than 10% of tests fail
+        threshold-error: 25% # Error if more than 25% of tests fail
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fail-on-empty: 'true'
+        fail-on-error: 'true'
+        list-tests: 'all'
