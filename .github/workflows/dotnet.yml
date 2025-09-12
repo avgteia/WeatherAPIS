@@ -28,31 +28,15 @@ jobs:
 
     - name: Run tests and collect coverage
       run: |
-        dotnet test --no-restore \
-        /p:CollectCoverage=true \
-        /p:CoverletOutputFormat=cobertura \
-        /p:CoverletOutput=./coverage.xml \
-        /p:Threshold=90 \
-        /p:ThresholdType=line \
-        /p:ThresholdStat=average
+        dotnet test --no-build --configuration Debug \
+        --logger "trx;LogFileName=test-results.trx" \
+        --results-directory TestResults 
 
-    - name: Publish code coverage report
-      uses: irongut/CodeCoverageAction@v1.9.0 # Or another suitable action
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: always()
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        filepath: ./coverage.xml
-        threshold: 90 # Optional, can be used for reporting in PR comments
-    #- name: Run tests and collect coverage
-    #  run: |
-    #    dotnet test --no-build --configuration Debug \
-    #    --logger "trx;LogFileName=test-results.trx" \
-    #    --results-directory TestResults 
-
-    #- name: Publish test results
-    #  uses: dorny/test-reporter@v1
-    #  if: always()
-    #  with:
-    #    name: 'xUnit Test Results'
-    #    path: 'TestResults/*.trx'
-    #    reporter: dotnet-trx
-    #    threshold: 90
+        name: 'xUnit Test Results'
+        path: 'TestResults/*.trx'
+        reporter: dotnet-trx
+        threshold: 90
