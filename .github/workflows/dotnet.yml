@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -24,3 +25,14 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test Business.Tests/Weather.Business.Tests.csproj --no-build --verbosity normal
+            
+    - name: Run tests and collect coverage
+      run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: 'xUnit Test Results'
+        path: 'TestResults/*.trx'
+        reporter: dotnet-trx
