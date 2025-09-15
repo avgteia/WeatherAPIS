@@ -38,7 +38,7 @@ jobs:
         reporter: dotnet-trx
 
     - name: Upload test results to Codecov
-      uses: codecov/test-results-action@v4
+      uses: codecov/test-results-action@v1
 
     - name: Publish traces
       uses: actions/upload-artifact@v4 # v4.6.2
