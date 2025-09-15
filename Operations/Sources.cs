@@ -19,7 +19,7 @@ namespace Weather.Operations
         // Lazy variable for create the [usp_Source_Sel_01] accesor
         static readonly Lazy<DataAccessor<SourcesEntity>> usp_Sources_Sel_01_Accessor = new Lazy<DataAccessor<SourcesEntity>>
             (
-                // Constructor invoked on this variable when [Value] property is accessed
+                // Constructor invoked on this variable when [Value] property is accessed.
                 () =>
                 {
                     // variable for map the properties of the indicate entity
