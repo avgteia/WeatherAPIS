@@ -1,6 +1,7 @@
 ﻿using Weather.Commons;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Weather.Operations.Entities;
+using Weather.Commons.Entities;
 
 namespace Weather.Operations
 {
@@ -29,11 +30,10 @@ namespace Weather.Operations
                 }
             );
 
-
         #endregion
 
         #region ------------------------------------------------- Public Methods ------------------------------------------------------
-        
+
 
         public static SourcesEntity GetByIdService(SourceRequestEntity filters)
         {
@@ -54,6 +54,20 @@ namespace Weather.Operations
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static NonQueryResultEntity AddService(SourceAddDto source)
+        {
+            var result = new NonQueryResultEntity();
+
+            result = Add(source);
+
+            return result;
+        }
+
         
         #endregion
 
@@ -70,6 +84,32 @@ namespace Weather.Operations
                 ).ToList();
 
             return sourceList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private static NonQueryResultEntity Add(SourceAddDto source)
+        {
+
+            var result = new NonQueryResultEntity();
+
+            try
+            {
+                result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Ins_01",
+                    source.idSource
+                    , source.Source
+                    , source.DataBaseName);
+
+            }
+            catch(Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
+            }
+
+            return result;
         }
         #endregion
     }

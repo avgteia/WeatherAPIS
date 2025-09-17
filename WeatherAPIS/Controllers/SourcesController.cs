@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Weather.Operations.Entities;
 using Weather.Operations;
+using Weather.Commons.Entities;
 
 
 namespace Weather.Admin.Controllers
@@ -39,6 +40,24 @@ namespace Weather.Admin.Controllers
             catch(Exception ex )
             {
                 throw new Exception(ex.Message);
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        public NonQueryResultEntity Add([FromBody]SourceAddDto request)
+        {
+
+            var result = new NonQueryResultEntity();
+
+            try
+            {
+                result = Sources.AddService(request);
+            }
+            catch(Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
             }
 
             return result;
