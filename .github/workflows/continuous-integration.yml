@@ -13,23 +13,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: 🔄 Checkout code
       uses: actions/checkout@v4
-    - name: Setup .NET
+    - name: 🧰 Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
+    - name: 📦 Restore dependencies
       run: dotnet restore
-    - name: Build
+    - name: 🛠️ Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test Business.Tests/Weather.Business.Tests.csproj --no-build --verbosity normal
+    # - name: Test
+    #   run: dotnet test Business.Tests/Weather.Business.Tests.csproj --no-build --verbosity normal
             
-    - name: Run tests and collect coverage
+    - name: ✅ Run tests with coverage
       run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
-    - name: Publish test results
+    - name: 📊 Publish test results
       uses: dorny/test-reporter@v1
       if: always()
       with:
@@ -37,10 +37,13 @@ jobs:
         path: 'TestResults/*.trx'
         reporter: dotnet-trx
 
-    - name: Upload test results to Codecov
+    - name: ☁️ Upload coverage to Codecov
       uses: codecov/test-results-action@v1
+      with:
+        files: TestResults/**/coverage.cobertura.xml
+        fail_ci_if_error: true
 
-    - name: Publish traces
+    - name: 📁 Publish traces
       uses: actions/upload-artifact@v4 # v4.6.2
       if: ${{ !cancelled() }}
       with:
