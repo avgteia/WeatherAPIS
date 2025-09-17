@@ -1,0 +1,64 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🔄 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🧰 Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: 📦 Restore dependencies
+      run: dotnet restore
+      
+    - name: 🛠️ Build
+      run: dotnet build --no-restore
+    # - name: Test
+    #   run: dotnet test Business.Tests/Weather.Business.Tests.csproj --no-build --verbosity normal
+            
+    - name: ✅ Run tests with coverage
+      run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults --collect:"XPlat Code Coverage"
+
+    - name: ✅ Prepare coverage to Codecov
+      run: |
+        dotnet tool install --global dotnet-reportgenerator-globaltool
+        reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
+
+    - name: 📊 Publish test results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: 'xUnit Test Results'
+        path: 'TestResults/*.trx'
+        reporter: dotnet-trx
+        
+    - name: 🔍 List coverage files
+      run: ls -R coveragereport
+
+    - name: ☁️ Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: coveragereport/coverage.cobertura.xml
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+    
+    #- name: 📁 Publish traces
+    #  uses: actions/upload-artifact@v4 # v4.6.2
+    #  if: ${{ !cancelled() }}
+    #  with:
+    #    name: traces
+    #    path: ./artifacts/traces/*
+    #    if-no-files-found: ignore
