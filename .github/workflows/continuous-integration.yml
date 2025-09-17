@@ -44,11 +44,14 @@ jobs:
         name: 'xUnit Test Results'
         path: 'TestResults/*.trx'
         reporter: dotnet-trx
+        
+    - name: 🔍 List coverage files
+      run: ls -R coveragereport
 
     - name: ☁️ Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
-        files: ../coverage.cobertura.xml
+        files: coveragereport/coverage.cobertura.xml
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
     
