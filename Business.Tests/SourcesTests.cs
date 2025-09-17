@@ -11,6 +11,7 @@ namespace Business.Tests
         {
             GetTest();
             GetByIdTest();
+            GetByOtherTest();
         }
 
         [TestMethod]
@@ -38,5 +39,18 @@ namespace Business.Tests
             Assert.IsNotNull(result, "No se encontró resultado.");
         }
 
+        [TestMethod]
+        public void GetByOtherTest()
+        {
+
+            var request = new SourceRequestEntity()
+            {
+                idSource = Guid.Parse("3a220c20-c4f3-49db-8634-43380ef46de1")
+            };
+
+            var result = Sources.GetByIdService(request);
+
+            Assert.IsNotNull(result, "No se encontró resultado.");
+        }
     }
 }
