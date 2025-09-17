@@ -27,7 +27,7 @@ jobs:
     #   run: dotnet test Business.Tests/Weather.Business.Tests.csproj --no-build --verbosity normal
             
     - name: ✅ Run tests with coverage
-      run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+      run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults --collect:"XPlat Code Coverage"
 
     - name: 📊 Publish test results
       uses: dorny/test-reporter@v1
@@ -38,9 +38,9 @@ jobs:
         reporter: dotnet-trx
 
     - name: ☁️ Upload coverage to Codecov
-      run: dotnet test --output build --collect:"XPlat Code Coverage";
-    - run: dotnet tool install -g dotnet-reportgenerator-globaltool;
-    - run:  reportgenerator -reports:'../coverage.cobertura.xml' -targetdir:'CoverageReports' -reporttypes:'Cobertura';
+      run: |
+        dotnet tool install --global dotnet-reportgenerator-globaltool
+        reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
 
     - name: ☁️ Upload coverage to Codecov
       uses: codecov/codecov-action@v4
