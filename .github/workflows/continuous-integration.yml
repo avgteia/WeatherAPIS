@@ -15,12 +15,15 @@ jobs:
     steps:
     - name: 🔄 Checkout code
       uses: actions/checkout@v4
+      
     - name: 🧰 Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        
     - name: 📦 Restore dependencies
       run: dotnet restore
+      
     - name: 🛠️ Build
       run: dotnet build --no-restore
     # - name: Test
@@ -28,6 +31,11 @@ jobs:
             
     - name: ✅ Run tests with coverage
       run: dotnet test --no-build --configuration Debug --logger "trx;LogFileName=test-results.trx" --results-directory TestResults --collect:"XPlat Code Coverage"
+
+    - name: ✅ Prepare coverage to Codecov
+      run: |
+        dotnet tool install --global dotnet-reportgenerator-globaltool
+        reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
 
     - name: 📊 Publish test results
       uses: dorny/test-reporter@v1
@@ -38,17 +46,10 @@ jobs:
         reporter: dotnet-trx
 
     - name: ☁️ Upload coverage to Codecov
-      run: |
-        dotnet tool install --global dotnet-reportgenerator-globaltool
-        reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
-
-    - name: ☁️ Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
         files: ../coverage.cobertura.xml
         fail_ci_if_error: true
-
-
     
     #- name: 📁 Publish traces
     #  uses: actions/upload-artifact@v4 # v4.6.2
