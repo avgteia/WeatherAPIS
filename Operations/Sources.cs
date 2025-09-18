@@ -26,7 +26,7 @@ namespace Weather.Operations
                     // variable for map the properties of the indicate entity
                     IRowMapper<SourcesEntity> entityPropetiesMapper = MapBuilder<SourcesEntity>.BuildAllProperties();
 
-                    return DatabaseProvider.ADF_Db.CreateSprocAccessor("usp_Sources_Sel_01",entityPropetiesMapper);
+                    return DatabaseProvider.ADF_Db.CreateSprocAccessor("usp_Sources_Sel_01", entityPropetiesMapper);
                 }
             );
 
@@ -62,13 +62,19 @@ namespace Weather.Operations
         public static NonQueryResultEntity AddService(SourceAddDto source)
         {
             var result = new NonQueryResultEntity();
-
-            result = Add(source);
+            try
+            {
+                result = Add(source);
+            }
+            catch(Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
+            }
 
             return result;
         }
 
-        
+
         #endregion
 
         #region ------------------------------------------------- Private Methods ------------------------------------------------------
@@ -96,18 +102,12 @@ namespace Weather.Operations
 
             var result = new NonQueryResultEntity();
 
-            try
-            {
-                result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Ins_01",
-                    source.idSource
-                    , source.Source
-                    , source.DataBaseName);
 
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Ins_01",
+                source.idSource
+                , source.Source
+                , source.DataBaseName);
+
 
             return result;
         }
