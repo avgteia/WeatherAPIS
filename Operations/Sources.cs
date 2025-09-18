@@ -71,10 +71,12 @@ namespace Weather.Operations
             catch(SqlException ex)
             {
                 result.NonAffectionReason = ex.Message;
+                Console.WriteLine(ex.Message);
             }
             catch(Exception ex)
             {
                 result.NonAffectionReason += "\n\r" + ex.Message;
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -100,6 +102,7 @@ namespace Weather.Operations
             catch(Exception ex)
             {
                 result.NonAffectionReason = ex.Message;
+                Console.WriteLine(ex.Message);
             }
             finally
             {
