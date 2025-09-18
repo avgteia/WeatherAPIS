@@ -68,6 +68,7 @@ namespace Business.Tests
             var result = Sources.AddService(request);
 
             Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
+            //
         }
     }
 }
