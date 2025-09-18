@@ -2,6 +2,7 @@
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Weather.Operations.Entities;
 using Weather.Commons.Entities;
+using System.Data.SqlClient;
 
 namespace Weather.Operations
 {
@@ -66,11 +67,15 @@ namespace Weather.Operations
             {
                 result = Add(source);
             }
-            catch(Exception ex)
+            catch(SqlException ex)
             {
                 result.NonAffectionReason = ex.Message;
             }
-
+            catch(Exception ex)
+            {
+                result.NonAffectionReason += "\n\r" + ex.Message;
+            }
+            
             return result;
         }
 
