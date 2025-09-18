@@ -13,6 +13,7 @@ namespace Business.Tests
         public void ExecuteAllTests()
         {
             AddTest();
+            AddTestWithExistId();
             GetTest();
             GetByIdTest();
             DeleteTest();
@@ -35,6 +36,24 @@ namespace Business.Tests
 
             Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
         }
+
+        [TestMethod]
+        public void AddTestWithExistId()
+        {
+            var request = new SourceAddDto()
+            {
+                idSource = Guid.Parse(SourceId)
+                ,
+                Source = string.Format("KQL-{0}", DateTime.Now.ToString("yyyyMMdd"))
+                ,
+                DataBaseName = "salesforce_mx"
+            };
+
+            var result = Sources.AddService(request);
+
+            Assert.IsFalse(result.RecordsAffected > 0, result.NonAffectionReason);
+        }
+
 
         [TestMethod]
         public void GetTest()
