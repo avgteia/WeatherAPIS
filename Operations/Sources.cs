@@ -106,7 +106,7 @@ namespace Weather.Operations
             }
             catch(Exception ex)
             {
-                result.NonAffectionReason = ex.Message;
+                throw new Exception(ex.Message);
             }
 
             return result;
