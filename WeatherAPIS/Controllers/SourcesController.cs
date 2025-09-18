@@ -62,5 +62,22 @@ namespace Weather.Admin.Controllers
 
             return result;
         }
+
+        [HttpDelete]
+        public NonQueryResultEntity DeleteService(Guid idSource)
+        {
+            var result = new NonQueryResultEntity();
+
+            try
+            {
+                result = Sources.DeleteService(idSource);
+            }
+            catch(Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
+            }
+
+            return result;
+        }
     }
 }

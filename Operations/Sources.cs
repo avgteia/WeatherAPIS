@@ -3,6 +3,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data;
 using Weather.Operations.Entities;
 using Weather.Commons.Entities;
 using System.Data.SqlClient;
+using System.Diagnostics.Tracing;
 
 namespace Weather.Operations
 {
@@ -75,10 +76,38 @@ namespace Weather.Operations
             {
                 result.NonAffectionReason += "\n\r" + ex.Message;
             }
+            finally
+            {
+                Console.WriteLine("Finish the bussines method.");
+            }
             
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static NonQueryResultEntity DeleteService(Guid id)
+        {
+            var result = new NonQueryResultEntity();
+
+            try
+            {
+                result = Delete(id);
+            }
+            catch(Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
+            }
+            finally
+            {
+                Console.WriteLine("Finish the bussines method.");
+            }
+
+            return result;
+        }
 
         #endregion
 
@@ -113,6 +142,21 @@ namespace Weather.Operations
                 , source.Source
                 , source.DataBaseName);
 
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private static NonQueryResultEntity Delete(Guid id)
+        {
+            var result = new NonQueryResultEntity();
+
+            result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Del_01",
+                id);
 
             return result;
         }

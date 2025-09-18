@@ -17,5 +17,14 @@
         /// </summary>
         public string? DataBaseName { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime Created {  get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime LastUpdate { get; set; }
     }
 }
