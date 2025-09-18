@@ -89,5 +89,15 @@ namespace Business.Tests
 
             Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
         }
+
+        [TestMethod]
+        public void DeleteWithNotExistsId()
+        {
+            var result = new NonQueryResultEntity();
+
+            result = Sources.DeleteService(Guid.NewGuid());
+
+            Assert.AreEqual(0, result.RecordsAffected, result.NonAffectionReason);
+        }
     }
 }

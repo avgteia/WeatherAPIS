@@ -68,11 +68,6 @@ namespace Weather.Operations
             {
                 result = Add(source);
             }
-            catch(SqlException ex)
-            {
-                result.NonAffectionReason = ex.Message;
-                Console.WriteLine(ex.Message);
-            }
             catch(Exception ex)
             {
                 result.NonAffectionReason += "\n\r" + ex.Message;
@@ -102,7 +97,6 @@ namespace Weather.Operations
             catch(Exception ex)
             {
                 result.NonAffectionReason = ex.Message;
-                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -158,8 +152,17 @@ namespace Weather.Operations
         {
             var result = new NonQueryResultEntity();
 
-            result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Del_01",
-                id);
+            var sourceInfo = Sources.GetByIdService(new SourceRequestEntity() { idSource = id });
+
+            if(sourceInfo != null)
+            {
+                result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Del_01",
+                    id);
+            }
+            else
+            {
+                result.NonAffectionReason = string.Format("No fue posible encontrar un Source con el id proporcionado [{0}]", id);
+            }
 
             return result;
         }
