@@ -79,5 +79,23 @@ namespace Weather.Admin.Controllers
 
             return result;
         }
+
+        [HttpPatch]
+        public NonQueryResultEntity Update([FromBody] SourceUpdDto request)
+        {
+
+            var result = new NonQueryResultEntity();
+
+            try
+            {
+                result = Sources.UpdateService(request);
+            }
+            catch (Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
+            }
+
+            return result;
+        }
     }
 }

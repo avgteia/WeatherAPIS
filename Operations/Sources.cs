@@ -68,7 +68,7 @@ namespace Weather.Operations
             {
                 result = Add(source);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.NonAffectionReason += "\n\r" + ex.Message;
                 Console.WriteLine(ex.Message);
@@ -77,7 +77,7 @@ namespace Weather.Operations
             {
                 Console.WriteLine("Finish the bussines method.");
             }
-            
+
             return result;
         }
 
@@ -94,7 +94,27 @@ namespace Weather.Operations
             {
                 result = Delete(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
+            }
+            finally
+            {
+                Console.WriteLine("Finish the bussines method.");
+            }
+
+            return result;
+        }
+
+        public static NonQueryResultEntity UpdateService(SourceUpdDto source)
+        {
+            var result = new NonQueryResultEntity();
+
+            try
+            {
+                result = Update(source);
+            }
+            catch (Exception ex)
             {
                 result.NonAffectionReason = ex.Message;
             }
@@ -154,18 +174,54 @@ namespace Weather.Operations
 
             var sourceInfo = Sources.GetByIdService(new SourceRequestEntity() { idSource = id });
 
-            if(sourceInfo != null)
+            if (sourceInfo != null)
             {
                 result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Del_01",
                     id);
             }
             else
             {
-                result.NonAffectionReason = string.Format("No fue posible encontrar un Source con el id proporcionado [{0}]", id);
+                throw new Exception(string.Format("No fue posible encontrar un Source con el id proporcionado [{0}]", id));
+                //result.NonAffectionReason = string.Format("No fue posible encontrar un Source con el id proporcionado [{0}]", id);
             }
 
             return result;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private static NonQueryResultEntity Update(SourceUpdDto source)
+        {
+            var result = new NonQueryResultEntity();
+
+            var sourceInfo = Sources.GetByIdService(new SourceRequestEntity() { idSource = source.idSource });
+
+            if (sourceInfo != null)
+            {
+                if (sourceInfo.ComparableDataString != source.ComparableDataString)
+                {
+                    result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Upd_01",
+                        source.idSource
+                        , source.Source
+                        , source.DataBaseName
+                        );
+                }
+                else
+                {
+                    throw new Exception(string.Format("No se encontraron cambios para Source con el id [{0}]", source.idSource));   
+                }
+            }
+            else
+            {
+                throw new Exception(string.Format("No fue posible encontrar un Source con el id proporcionado [{0}]", source.idSource));
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }
