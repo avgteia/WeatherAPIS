@@ -1,3 +1,4 @@
+using Weather.Commons.Entities;
 using Weather.Operations;
 using Weather.Operations.Entities;
 
@@ -6,14 +7,53 @@ namespace Business.Tests
     [TestClass]
     public class SourcesTests
     {
+        private static string SourceId = Guid.NewGuid().ToString();
+
         [TestMethod]
         public void ExecuteAllTests()
         {
+            AddTest();
+            AddTestWithExistId();
             GetTest();
             GetByIdTest();
-            GetByOtherTest();
-            AddTest();
+            DeleteTest();
         }
+
+        [TestMethod]
+        public void AddTest()
+        {
+
+            var request = new SourceAddDto()
+            {
+                idSource = Guid.Parse(SourceId)
+                ,
+                Source = string.Format("KQL-{0}", DateTime.Now.ToString("yyyyMMdd"))
+                ,
+                DataBaseName = "salesforce_mx"
+            };
+
+            var result = Sources.AddService(request);
+
+            Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
+        }
+
+        [TestMethod]
+        public void AddTestWithExistId()
+        {
+            var request = new SourceAddDto()
+            {
+                idSource = Guid.Parse(SourceId)
+                ,
+                Source = string.Format("KQL-{0}", DateTime.Now.ToString("yyyyMMdd"))
+                ,
+                DataBaseName = "salesforce_mx"
+            };
+
+            var result = Sources.AddService(request);
+
+            Assert.IsFalse(result.RecordsAffected > 0, result.NonAffectionReason);
+        }
+
 
         [TestMethod]
         public void GetTest()
@@ -32,7 +72,7 @@ namespace Business.Tests
         {
 
             var request = new SourceRequestEntity() { 
-                idSource = Guid.Parse("3a220c20-c4f3-49db-8634-43380ef46de1")
+                idSource = Guid.Parse(SourceId)
             };
 
             var result = Sources.GetByIdService(request);
@@ -41,34 +81,23 @@ namespace Business.Tests
         }
 
         [TestMethod]
-        public void GetByOtherTest()
+        public void DeleteTest()
         {
+            var result = new NonQueryResultEntity();
 
-            var request = new SourceRequestEntity()
-            {
-                idSource = Guid.Parse("3a220c20-c4f3-49db-8634-43380ef46de1")
-            };
+            result = Sources.DeleteService(Guid.Parse(SourceId));
 
-            var result = Sources.GetByIdService(request);
-
-            Assert.IsNotNull(result, "No se encontró resultado.");
+            Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
         }
 
         [TestMethod]
-        public void AddTest()
+        public void DeleteWithNotExistsId()
         {
+            var result = new NonQueryResultEntity();
 
-            var request = new SourceAddDto()
-            {
-                idSource = Guid.NewGuid()
-                , Source = string.Format("KQL-{0}",DateTime.Now.ToString("yyyyMMdd"))
-                , DataBaseName = "salesforce_mx"
-            };
+            result = Sources.DeleteService(Guid.NewGuid());
 
-            var result = Sources.AddService(request);
-
-            Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
-            //
+            Assert.AreEqual(0, result.RecordsAffected, result.NonAffectionReason);
         }
     }
 }

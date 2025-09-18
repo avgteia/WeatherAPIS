@@ -3,6 +3,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data;
 using Weather.Operations.Entities;
 using Weather.Commons.Entities;
 using System.Data.SqlClient;
+using System.Diagnostics.Tracing;
 
 namespace Weather.Operations
 {
@@ -67,18 +68,43 @@ namespace Weather.Operations
             {
                 result = Add(source);
             }
-            catch(SqlException ex)
-            {
-                result.NonAffectionReason = ex.Message;
-            }
             catch(Exception ex)
             {
                 result.NonAffectionReason += "\n\r" + ex.Message;
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Finish the bussines method.");
             }
             
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static NonQueryResultEntity DeleteService(Guid id)
+        {
+            var result = new NonQueryResultEntity();
+
+            try
+            {
+                result = Delete(id);
+            }
+            catch(Exception ex)
+            {
+                result.NonAffectionReason = ex.Message;
+            }
+            finally
+            {
+                Console.WriteLine("Finish the bussines method.");
+            }
+
+            return result;
+        }
 
         #endregion
 
@@ -113,6 +139,30 @@ namespace Weather.Operations
                 , source.Source
                 , source.DataBaseName);
 
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private static NonQueryResultEntity Delete(Guid id)
+        {
+            var result = new NonQueryResultEntity();
+
+            var sourceInfo = Sources.GetByIdService(new SourceRequestEntity() { idSource = id });
+
+            if(sourceInfo != null)
+            {
+                result.RecordsAffected = DatabaseProvider.ADF_Db.ExecuteNonQuery("usp_Sources_Del_01",
+                    id);
+            }
+            else
+            {
+                result.NonAffectionReason = string.Format("No fue posible encontrar un Source con el id proporcionado [{0}]", id);
+            }
 
             return result;
         }
