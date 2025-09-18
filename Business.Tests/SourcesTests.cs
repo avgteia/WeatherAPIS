@@ -16,7 +16,11 @@ namespace Business.Tests
             AddTestWithExistId();
             GetTest();
             GetByIdTest();
+            UpdateTest();
+            UpdateWhenSourceNotExistsTest();
+            UpdateSourceWithoutChangesTest();
             DeleteTest();
+            DeleteWithNotExistsId();
         }
 
         [TestMethod]
@@ -78,6 +82,58 @@ namespace Business.Tests
             var result = Sources.GetByIdService(request);
             
             Assert.IsNotNull(result, "No se encontró resultado.");
+        }
+
+
+        [TestMethod]
+        public void UpdateTest()
+        {
+
+            var request = new SourceUpdDto()
+            {
+                idSource = Guid.Parse(SourceId)
+              , Source = string.Format("SOQL-{0}", DateTime.Now.ToString("yyyyMMdd"))
+              , DataBaseName = "salesforce_nic"
+            };
+
+            var result = Sources.UpdateService(request);
+
+            Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
+        }
+
+        [TestMethod]
+        public void UpdateWhenSourceNotExistsTest()
+        {
+
+            var request = new SourceUpdDto()
+            {
+                idSource = Guid.NewGuid()
+              ,
+                Source = string.Format("SOQL-{0}", DateTime.Now.ToString("yyyyMMdd"))
+              ,
+                DataBaseName = "salesforce_nic"
+            };
+
+            var result = Sources.UpdateService(request);
+
+            Assert.IsTrue(result.RecordsAffected == 0, result.NonAffectionReason);
+        }
+
+        [TestMethod]
+        public void UpdateSourceWithoutChangesTest()
+        {
+            var request = new SourceUpdDto()
+            {
+                idSource = Guid.Parse(SourceId)
+             ,
+                Source = string.Format("SOQL-{0}", DateTime.Now.ToString("yyyyMMdd"))
+             ,
+                DataBaseName = "salesforce_nic"
+            };
+
+            var result = Sources.UpdateService(request);
+
+            Assert.IsTrue(result.RecordsAffected == 0, result.NonAffectionReason);
         }
 
         [TestMethod]

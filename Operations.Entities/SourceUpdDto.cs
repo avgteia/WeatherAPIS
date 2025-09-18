@@ -1,33 +1,36 @@
-﻿using Weather.Commons;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Security.AccessControl;
+using System.Text;
+using System.Threading.Tasks;
+using Weather.Commons;
 
 namespace Weather.Operations.Entities
 {
-    public class SourcesEntity
+    public class SourceUpdDto
     {
+
         /// <summary>
         /// Unique Source identifier 
         /// </summary>
+        [Required]
         public Guid idSource { get; set; }
 
         /// <summary>
         /// Description Source
         /// </summary>
-        public string? Source {  get; set; }
+        /// 
+        [Required]
+        public string Source { get; set; }
 
         /// <summary>
         /// Name of Data Base
         /// </summary>
-        public string? DataBaseName { get; set; }
-
-        /// <summary>
         /// 
-        /// </summary>
-        public DateTime Created {  get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime LastUpdate { get; set; }
+        [Required]
+        public string DataBaseName { get; set; }
 
         public string ComparableDataString
         {
