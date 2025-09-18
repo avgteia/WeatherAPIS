@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Commons\Weather.Commons.csproj" />
     <ProjectReference Include="..\Operations.Entities\Weather.Operations.Entities.csproj" />
+    <ProjectReference Include="..\Weather.Commons.Entities\Weather.Commons.Entities.csproj" />
   </ItemGroup>
 
 </Project>

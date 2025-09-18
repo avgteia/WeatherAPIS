@@ -12,6 +12,7 @@ namespace Business.Tests
             GetTest();
             GetByIdTest();
             GetByOtherTest();
+            AddTest();
         }
 
         [TestMethod]
@@ -53,18 +54,21 @@ namespace Business.Tests
             Assert.IsNotNull(result, "No se encontró resultado.");
         }
 
-        //[TestMethod]
-        //public void GetByOtherTest()
-        //{
+        [TestMethod]
+        public void AddTest()
+        {
 
-        //    var request = new SourceRequestEntity()
-        //    {
-        //        idSource = Guid.Parse("3a220c20-c4f3-49db-8634-43380ef46de1")
-        //    };
+            var request = new SourceAddDto()
+            {
+                idSource = Guid.NewGuid()
+                , Source = string.Format("KQL-{0}",DateTime.Now.ToString("yyyyMMdd"))
+                , DataBaseName = "salesforce_mx"
+            };
 
-        //    var result = Sources.GetByIdService(request);
+            var result = Sources.AddService(request);
 
-        //    Assert.IsNotNull(result, "No se encontró resultado.");
-        //}
+            Assert.IsTrue(result.RecordsAffected > 0, result.NonAffectionReason);
+            //
+        }
     }
 }
